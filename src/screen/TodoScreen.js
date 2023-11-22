@@ -8,24 +8,18 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { IconButton } from "react-native-paper";
-import { uuid } from "react-native-uuid";
-import Fallback from "../components/Fallback";
+import EmptyListing from "../components/EmptyListing";
 
 console.log(Date.now().toString());
 
 const TodoScreen = () => {
-	// Init local states
 	const [todo, setTodo] = useState("");
 	const [todoList, setTodoList] = useState([]);
 	const [editedTodo, setEditedTodo] = useState(null);
 
 	// Handle Add Todo
 	const handleAddTodo = () => {
-		// sturtcure of a single todo item
-		// {
-		// 	id:
-		// 	title:
-		// }
+
 
 		if (todo === "") {
 			return; // early return
@@ -68,8 +62,9 @@ const TodoScreen = () => {
 	const renderTodos = ({ item, index }) => {
 		return (
 			<View
+
 				style={{
-					backgroundColor: "#1e90ff",
+					backgroundColor: "#9c712a",
 					borderRadius: 6,
 					paddingHorizontal: 6,
 					paddingVertical: 8,
@@ -79,48 +74,47 @@ const TodoScreen = () => {
 					shadowColor: "#000",
 					shadowOffset: { width: 0, height: 2 },
 					shadowOpacity: 0.8,
-					shadowRadius: 3,
-					// elevation: for android
+					shadowRadius: 3
 				}}
 			>
+				<IconButton
+					icon="pen"
+					iconColor="#EAEEE9"
+					onPress={() => handleEditTodo(item)}
+				/>
+				
 				<Text
-					style={{ color: "#fff", fontSize: 20, fontWeight: "800", flex: 1 }}
+					style={{ color: "#EAEEE9", fontSize: 20, fontWeight: "800", flex: 1 }}
 				>
 					{item.title}
 				</Text>
 
 				<IconButton
-					icon="pencil"
-					iconColor="#fff"
-					onPress={() => handleEditTodo(item)}
-				/>
-				<IconButton
 					icon="trash-can"
-					iconColor="#fff"
+					iconColor="#EAEEE9"
 					onPress={() => handleDeleteTodo(item.id)}
 				/>
 			</View>
 		);
 	};
 	return (
-		<View style={{ marginHorizontal: 16, marginTop: 40 }}>
+		<View style={{ marginHorizontal: 16, marginTop: 60 }}>
 			<TextInput
 				style={{
 					borderWidth: 2,
-					borderColor: "#000",
-					borderRadius: 6,
 					paddingVertical: 8,
 					paddingHorizontal: 16,
+					borderColor: "#000",
+					borderRadius: 6
 				}}
-				placeholder="Add a task"
+				placeholder="Tap to create some task"
 				value={todo}
 				onChangeText={(userText) => setTodo(userText)}
 			/>
-
 			{editedTodo ? (
 				<TouchableOpacity
 					style={{
-						backgroundColor: "#000",
+						backgroundColor: "#34282C",
 						borderRadius: 6,
 						paddingVertical: 12,
 						marginVertical: 34,
@@ -132,18 +126,18 @@ const TodoScreen = () => {
 					}}
 					onPress={() => handleUpdateTodo()}
 				>
-					<Text style={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>
+					<Text style={{ color: "#EAEEE9", fontWeight: "bold", fontSize: 20 }}>
 						Save
 					</Text>
 				</TouchableOpacity>
 			) : (
 				<TouchableOpacity
 					style={{
-						backgroundColor: "#000",
+						backgroundColor: "#34282C",
 						borderRadius: 6,
+						alignItems: "center",
 						paddingVertical: 12,
 						marginVertical: 34,
-						alignItems: "center",
 						shadowColor: "#000",
 						shadowOffset: { width: 0, height: 2 },
 						shadowOpacity: 0.8,
@@ -151,9 +145,7 @@ const TodoScreen = () => {
 					}}
 					onPress={() => handleAddTodo()}
 				>
-					<Text style={{ color: "#fff", fontWeight: "bold", fontSize: 20 }}>
-						Add
-					</Text>
+					<Text style={{ color: "#EAEEE9", fontWeight: "bold", fontSize: 20 }}> ADD YOUR TASK </Text>
 				</TouchableOpacity>
 			)}
 
@@ -161,11 +153,10 @@ const TodoScreen = () => {
 
 			<FlatList data={todoList} renderItem={renderTodos} />
 
-			{todoList.length <= 0 && <Fallback />}
+			{todoList.length <= 0 && <EmptyListing />}
 		</View>
 	);
 };
 
 export default TodoScreen;
-
 const styles = StyleSheet.create({});
